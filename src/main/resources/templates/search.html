@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>公式定理查询系统</title> 
+<link rel="stylesheet" href="/css/search.css" />
+<script type="text/javascript" src="/javascript/jquery-3.3.1.min.js"></script>
+<script src="/javascript/main.js"></script>
+<script>
+	function doSearch(){
+		r_limit=20;
+		$.post("/searchNumHandle",{
+			sub : $("#sub").val(),
+			kwd : $("#seaBar").val()
+		},function(data,status){
+			r_count=data;
+			$("#tip").text("共检索到"+r_count+"条记录。")
+		});
+		$.post("/searchHandle", {
+			sub : $("#sub").val(),
+			kwd : $("#seaBar").val(),
+			limit : r_limit,
+			page : $("#pageNum").val()
+		}, function(data, status) {
+			$("#result").text("");
+			var jsondatas = eval(data);
+			$.each(jsondatas, function(i, n) {
+				$("#result").append(
+						"<div class=\"card1\"><div class=\"container\"><p>"
+								+ n.th_content
+								+ "</p></div></div>");
+			});
+		});
+		$("#title").text(
+				"公式定理搜索"+($.trim($("#seaBar").val())==""?"":"——")
+				+ $("#seaBar").val());
+	}
+
+	$(document).ready(
+			function() {
+				$("#seaBar").keydown(
+						function(e) {
+							if (e.keyCode == 13) {
+								doSearch();
+							}
+						});
+				$("#nextPage").click(
+						function() {
+							if(parseInt($("#pageNum").val())*parseInt(r_limit)>=parseInt(r_count)){
+								alert("已是最后一页。");
+							}else{
+								$("#pageNum")
+									.val(parseInt($("#pageNum").val()) + 1);
+								doSearch();
+							}
+						});
+				$("#prePage").click(
+						function() {
+							if (parseInt($("#pageNum").val()) > 1) {
+								$("#pageNum").val(
+										parseInt($("#pageNum").val()) - 1);
+								doSearch();
+							} else {
+								alert("已是第一页。");
+							}
+						});
+			    doSearch();
+			});
+</script>
+</head>
+
+<body>
+	<div class="container">
+		<h1>公式定理查询系统</h1>
+		<ul class="nav">
+			<li><a href="/">主页</a></li>
+			<li><a href="/admin/">后台管理</a></li>
+		</ul>
+	</div>
+	<div class="container">
+	<select id="sub" name="sub">
+		<option th:each="item : ${subject}" th:value="${item['id']}"
+			th:text="${item['sub_title']}"></option>
+	</select>
+	<input type="hidden" id="pageNum" value="1">
+	<input id="seaBar" type="text" placeholder="输入回车搜索" autofocus
+		x-webkit-speech style="width: 70%;">
+		<div id="tip" class="inf"></div>
+	</div>
+	<div id="result">
+	</div>
+    <div class="container">
+    	<ul class="nav">
+    		<li id="prePage"><a href="#prePage">上一页</a></li>
+    		<li id="nextPage"><a href="#nextPage">下一页</a></li>
+    	</ul>
+    </div>
+    <div class="goTop">
+    	<span>Go</span>
+	</div>
+</body>
+</html>

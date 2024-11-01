@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>科目管理</title>
+<script type="text/javascript" src="/javascript/jquery-3.3.1.min.js"></script>
+<script>
+	$(document).ready(function() {
+		$(".delbutton").click(function(){
+			if(confirm("您确实要删除该科目吗？")){
+				$.post("/admin/subject/del",{
+					id:$(this).parent().prev().prev().html()
+				},function(data,status){
+					if(data==true){
+						alert("删除成功。");
+					}
+					location.reload();
+				});
+			}
+		});
+		$(".editbutton").click(function(){
+				$.post("/admin/subject/edit",{
+					id:$(this).parent().prev().html(),
+					subject:$("#sub"+$(this).parent().prev().html()).val()
+				},function(data,status){
+					if(data==true){
+						alert("修改完成。");
+					}
+					location.reload();
+				});
+		});
+	});
+</script>
+<link rel="stylesheet" type="text/css" href="/css/main.css">
+</head>
+<body>
+<h1>科目管理</h1>
+<table border="1" style='width: 100%;'>
+	<tr>
+		<th>id</th>
+		<th>科目</th>
+		<th>操作</th>
+		<th>操作</th>
+	</tr>
+	<tr th:each="item : ${subject}">
+		<td th:text="${item['id']}" />
+		<td><input th:id="${'sub'+item['id']}" th:value="${item['sub_title']}"></td>
+		<td th:text="${item['id']}" style="display:none;"></td>
+		<td><button class="editbutton btn">修改</button></td>
+		<td><button class="delbutton btn">删除</button></td>
+	</tr>
+	
+</table>
+<form action="/admin/subject/add">
+<h1>添加</h1>
+科目名称：<input name="subject" type="text">
+<p><input type="submit" class="btn"></p>
+</form>
+</body>
+</html>

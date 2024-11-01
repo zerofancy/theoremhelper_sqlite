@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>公式定理</title>
+<script type="text/javascript" src="/javascript/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="/javascript/jquery.backstretch.min.js"></script>
+<script>
+	function doSearch(){
+		r_limit=20;
+		$.post("/searchNumHandle",{
+			sub : $("#sub").val(),
+			kwd : $("#seaBar").val()
+		},function(data,status){
+			r_count=data;
+			$("#tip").text("共检索到"+r_count+"条记录。")
+		});
+		$.post("/searchHandle", {
+			sub : $("#sub").val(),
+			kwd : $("#seaBar").val(),
+			limit : r_limit,
+			page : $("#pageNum").val()
+		}, function(data, status) {
+			$("#result").text("");
+			var jsondatas = eval(data);
+			$.each(jsondatas, function(i, n) {
+				$("#result").append(
+						"<div class=\"card1\"><div class=\"container1\"><p>"
+								+ n.th_content
+								+ "</p></div></div>");
+			});
+		});
+		$("#title").text(
+				"公式定理搜索"+($.trim($("#seaBar").val())==""?"":"——")
+				+ $("#seaBar").val());
+		//$("body").attr("background-image","https://cn.bing.com/ImageResolution.aspx?w="+$(window).width()+"&h="+$(window).height());
+ 		$.backstretch("https://cn.bing.com/ImageResolution.aspx?w="+$(window).width()+"&h="+$(window).height());
+	}
+
+	function isMobile() {
+	    var userAgentInfo = navigator.userAgent;
+
+	    var mobileAgents = [ "Android", "iPhone", "SymbianOS", "Windows Phone", "iPad","iPod"];
+
+	    var mobile_flag = false;
+
+	    //根据userAgent判断是否是手机
+	    for (var v = 0; v < mobileAgents.length; v++) {
+	        if (userAgentInfo.indexOf(mobileAgents[v]) > 0) {
+	            mobile_flag = true;
+	            break;
+	        }
+	    }
+
+	     var screen_width = window.screen.width;
+	     var screen_height = window.screen.height;    
+
+	     //根据屏幕分辨率判断是否是手机
+	     if(screen_width < 500 && screen_height < 800){
+	         mobile_flag = true;
+	     }
+
+	     return mobile_flag;
+	}
+	$(document).ready(
+			function() {
+				$("#seaBar").keydown(
+						function(e) {
+							if (e.keyCode == 13) {
+								doSearch();
+							}
+						});
+				$("#nextPage").click(
+						function() {
+							if(parseInt($("#pageNum").val())*parseInt(r_limit)>=parseInt(r_count)){
+								alert("已是最后一页。");
+							}else{
+								$("#pageNum")
+									.val(parseInt($("#pageNum").val()) + 1);
+								doSearch();
+							}
+						});
+				$("#prePage").click(
+						function() {
+							if (parseInt($("#pageNum").val()) > 1) {
+								$("#pageNum").val(
+										parseInt($("#pageNum").val()) - 1);
+								doSearch();
+							} else {
+								alert("已是第一页。");
+							}
+						});
+			    if(!isMobile()){
+			    	$("#header").hide();
+			    	$("#prePage").width("20%");
+			    	$("#nextPage").width("20%");			    	
+			    }
+			    doSearch();
+			});
+</script>
+<link rel="stylesheet" type="text/css" href="/css/main.css">
+<meta name="viewport" content="width=device-width" />
+<meta name="viewport" content=" initial-scale=1.0,user-scalable=no" />
+</head>
+<body>
+	<img id="header" alt="公式定理" src="/images/header.jpg" width="100%">
+	<h1 id="title" style="background-color: rgba(255,255,255,0.5);">公式定理搜索</h1>
+	<select id="sub" name="sub">
+		<option th:each="item : ${subject}" th:value="${item['id']}"
+			th:text="${item['sub_title']}"></option>
+	</select>
+	<input type="hidden" id="pageNum" value="1">
+	<input id="seaBar" type="text" placeholder="输入回车搜索" autofocus
+		x-webkit-speech style="width: 70%;">
+	<div id="tip" style="background-color: rgba(255,255,255,0.5);"></div>
+	<div id="result" style="background-color: rgba(255,255,255,0.8);"></div>
+	<p style="text-align:centerbackground-color: rgba(255,255,255,0.5);">
+		<button id="prePage" style="width: 95%;" class="btn">上一页</button>
+		<br>
+		<br>
+		<button id="nextPage" style="width: 95%;" class="btn">下一页</button>
+	</p>
+	<p style="text-align:center;">
+		<a href="/admin/index" class="btn">后台管理</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/help.html" class="btn">帮助</a>
+	</p>
+</body>
+</html>

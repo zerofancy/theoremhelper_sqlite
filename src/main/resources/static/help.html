@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>帮助说明</title>
+<style>
+table tr:nth-child(odd) {
+	background: #ccc;
+}
+
+.btn {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	outline: 0;
+	background-color: #d0d0d0;
+	border: 0;
+	padding: 10px 15px;
+	color: #333;
+	border-radius: 3px;
+	width: 200px;
+	cursor: pointer;
+	font-family: microsoft yahei, Arial, sans-serif;
+	font-size: 16px;
+	font-weight: 700;
+	-webkit-transition-duration: .25s;
+	transition-duration: .25s
+}
+
+.btn:hover {
+	background-color: #6c6c6c
+}
+</style>
+</head>
+<body>
+	<h1>公式定理查询系统</h1>
+	<p>
+		【项目背景】当前大学生对于公式定理的记忆不是很重视，而很多科目是的确需要去背公式定理的。一般来说，这么厚一本书，翻一遍就得半小时，找什么都不方便。如果在做题时遇到了不会的，这时我们通常希望能直接找到相关的知识点，而现今已有的工具基本不能胜任这个工作。
+	</p>
+	<p>【系统需求】公式定理查询系统是为快速查询公式定理准备的，通过简单输入关键词来快速查询公式定理。</p>
+	<p>【运行环境】jdk1.8、mysql</p>
+	<p>
+		<b>您可以点击这里开始→</b><a href="/"><button class="btn">系统首页</button></a>，但仍然建议您阅读下面的帮助说明。
+	</p>
+	<h2>部署说明（mysql）</h2>
+	<div>
+		1、 安装并配置mysql。<br> 2、
+		导入theoremhelper.sql数据库文件，得到一个有三张数据表的数据库，在adm表中添加管理员账号，如： <br> <img
+			alt="添加管理员账号" src="/images/admpwd.png"><br> 3、
+		修改application.properties，如：<br>
+		<table>
+			<tr>
+				<td>spring.thymeleaf.mode=LEGACYHTML5</td>
+			</tr>
+			<tr>
+				<td>spring.datasource.url=jdbc:mysql://localhost:3306/Theoremhelper?serverTimezone=UTC&useSSL=false</td>
+			</tr>
+			<tr>
+				<td>spring.datasource.username=root</td>
+			</tr>
+			<tr>
+				<td>spring.datasource.password=************</td>
+			</tr>
+			<tr>
+				<td>spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver</td>
+			</tr>
+			<tr>
+				<td>server.port=80</td>
+			</tr>
+		</table>
+		<br> 在这里指定数据库的位置和连接账户、系统绑定的端口号。<br>
+		4、在控制台输入java&nbsp;–jar&nbsp;theoremhelper.jar启动系统。<br>
+	</div>
+	<h2>部署说明（SQLite）</h2>
+	<div>
+		1、准备好SQLite数据库文件theoremhelper.db，修改application.properties，如：<br>
+		<table>
+			<tr>
+				<td>spring.thymeleaf.mode=LEGACYHTML5</td>
+			</tr>
+			<tr>
+				<td>spring.datasource.url=jdbc:sqlite:theoremhelper.db</td>
+			</tr>
+			<tr>
+				<td>spring.datasource.username=</td>
+			</tr>
+			<tr>
+				<td>spring.datasource.password=</td>
+			</tr>
+			<tr>
+				<td>spring.datasource.driver-class-name=org.sqlite.JDBC</td>
+			</tr>
+			<tr>
+				<td>server.port=80<br>
+				</td>
+			</tr>
+		</table>
+		<br>2、在控制台输入java&nbsp;–jar&nbsp;theoremhelper.jar启动系统。<br> <b>通常，您不需要进行上述部署步骤，只需将整个文件夹解压缩到合适位置，并双击“启动.cmd”。</b>
+		<p>Linux系统是可以运行本系统的,但可能会遇到因安全规则无法绑定80端口等问题.</p>
+	</div>
+	<h2>操作说明</h2>
+	在上述
+	<b>部署</b>完成后，系统便已经可以开始使用。如果您只是想在本机上使用，只需点击
+	<a href="/"><button class="btn">系统首页</button></a>便可以进入系统首页。您同样还可以在与你的电脑处于同一局域网下的设备（如连接了同一wifi的手机）上使用，这时需要将访问的网址中的“localhost”替换成具体的本机ip地址。如果无法访问，请检查防火墙等因素。对于如何把它部署到服务器上，本文档不再展开叙述。
+	<p>进入“系统首页”后，您可以选择科目并在输入框输入关键词并回车进行查询。点击“后台管理”并输入用户名密码后便进入系统的后台管理。
+	</p>
+	<p>
+		目前“后台管理”只适合电脑浏览器操作。在这里，你可以实现基本的增删查改操作。系统的登录密码暂时不可以在后台管理直接修改，因为我觉得必要性不大，不过不排除以后的版本会添加的可能性。现在你可以用其他软件连接数据库并修改其中的“adm”表。
+	</p>
+	<p>
+	经过测试,<b>当前版本可以在Linux部署</b>,需要java环境.在Linux绑定80端口很可能因为防火墙等原因导致失败.
+	</p>
+	<img alt="Linux下部署成功" src="/images/screenshot_linux.png" style="max-width:50%">
+</body>
+</html>

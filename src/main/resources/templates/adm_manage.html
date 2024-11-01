@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>数据管理</title>
+<script type="text/javascript" src="/javascript/jquery-3.3.1.min.js"></script>
+<script>
+	$(document).ready(function() {
+		$("#pn").keydown(function(e) {
+			if (e.keyCode == 13) {
+				location.href = "/admin/manage?page=" + $("#pn").val();
+			}
+		});
+		$(".delbutton").click(function() {
+			if (confirm("您确实要删除该条定理吗？")) {
+				$.post("/admin/del", {
+					id : $(this).parent().prev().html()
+				}, function(data, status) {
+					if (data == true) {
+						alert("删除成功。");
+					}
+					location.reload();
+				});
+			}
+		});
+	});
+</script>
+<link rel="stylesheet" type="text/css" href="/css/main.css">
+</head>
+<body>
+	<h1>数据管理</h1>
+	<table border="1" style='width: 100%;'>
+		<tr>
+			<th>id</th>
+			<th>简略</th>
+			<th>完整</th>
+			<th>所属</th>
+			<th>操作</th>
+		</tr>
+		<tr th:each="item : ${content}">
+			<td th:text="${item.getId()}" />
+			<td><a th:text="${item.getAbs()}"
+				th:href="@{/admin/edit(id=${item['id']},page=${pn})}"></a></td>
+			<td th:utext="${item.getContent()}" />
+			<td th:text="${item['sub_str']}" />
+			<td th:text="${item['id']}" style="display: none;"></td>
+			<td><button class="delbutton btn">删除</button></td>
+		</tr>
+
+	</table>
+	<p>
+		第<input id="pn" type="text" th:value="${pn}">页,共<a
+			th:text="${pgs}"></a>页。
+	</p>
+	<p>您可以输入页码后回车跳转。</p>
+</body>
+</html>

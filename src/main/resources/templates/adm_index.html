@@ -1,0 +1,87 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>系统后台管理</title>
+<link rel="stylesheet" type="text/css" href="/css/adm_index.css">
+<link rel="stylesheet" type="text/css" href="/css/main.css">
+<script type="text/javascript" src="/javascript/jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+	function toggleClass(dom, className) {
+		var reg = new RegExp(className, "g"), cn = dom.className, newcn = cn
+				.indexOf(className) == -1 ? (cn + " " + className) : cn
+				.replace(reg, "");
+		dom.className = newcn;
+	}
+	$(document).ready(function(){
+		$("a").click(function(){  
+		    var href = $(this).attr('href');  
+		    $('#iframe').attr('src', href);
+		    return false;
+		});
+		$(".logout").click(function(){
+			if(confirm("确实要退出登录吗？")){
+			    $('#iframe').attr('src', "/admin/logout");
+			}
+		});
+	});
+	if (window!=top) // 判断当前的window对象是否是top对象
+		　　top.location.href = window.location.href; // 如果不是，将top对象的网址自动导向被嵌入网页的网址
+</script>
+</head>
+<body>
+	<div class="panel top">
+		<h1>系统后台管理</h1>
+	</div>
+	<div class="panel left">
+		<!-- 
+		<input type="button" id="" name="" value="收起/显示上部"
+			onclick="toggleClass(document.getElementsByTagName('html')[0],'hidetop')" />
+		<br /> <input type="button" id="" name="" value="收起/显示左部"
+			onclick="toggleClass(document.getElementsByTagName('html')[0],'hideleft')" />
+		<br /> <input type="button" id="" name="" value="收起/显示下部"
+			onclick="toggleClass(document.getElementsByTagName('html')[0],'hidebottom')" />
+		<hr>
+		-->
+
+		<img id="header" alt="公式定理" src="/images/header.jpg" width="100%">
+			<p th:text="${'欢迎您，'+session.user.getName()}">欢迎您，***</p>
+			<hr>
+			<p>
+				<a href="/"><button class="btn">系统首页</button></a>
+			</p>
+			<hr>
+			<p>
+				<a href="/admin/manage"><button class="btn">管理数据</button></a>
+			</p>
+			<hr>
+			<p>
+				<a href="/admin/add"><button class="btn">添加数据</button></a>
+			</p>
+			<hr>
+			<p>
+				<a href="/admin/subject"><button class="btn">科目管理</button></a>
+			</p>
+			<hr>
+			<p>
+				<a href="/admin/user"><button class="btn">用户管理</button></a>
+			</p>
+			<hr>
+			<p>
+				<a href="/help.html"><button class="btn">帮助说明</button></a>
+			</p>
+			<hr>
+			<p>
+				<a href="mailto:yqmailsend@163.com"><button class="btn">联系作者</button></a>
+			</p>
+			<hr>
+			<p>
+				<button class="btn logout">退出登录</button>
+			</p>
+	</div>
+	<div class="panel main">
+		<iframe style="overflow: visible;" src="/help.html" id="iframe"></iframe>
+	</div>
+	<div class="panel bottom">Powered by 软件工程1702刘海鑫 李睿</div>
+</body>
+</html>
