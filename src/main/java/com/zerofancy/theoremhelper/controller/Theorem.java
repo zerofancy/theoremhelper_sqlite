@@ -4,9 +4,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,7 +25,7 @@ public class Theorem {
 	private SubjectService subjectService;
 
 	@RequestMapping("/")
-	String IndexPage(HttpServletRequest request, HttpServletResponse response,Model model) throws IOException {
+	String IndexPage(HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
 		model.addAttribute("subject", subjectService.getAll());
 		return "search";
 	}

@@ -23,7 +23,7 @@ public class TheoremhelperApplication {
 	public static void main(String[] args) {
 		System.out.println("公式定理查询系统已经启动。");
 		System.out.println("正在检查application.properties");
-		System.out.println("");
+		System.out.println();
 		System.out.println("端口号：" + SERVER_PORT);
 		System.out.println("数据库地址：" + spring_datasource_url);
 		System.out.println("数据库用户名（长度）：" + spring_datasource_username.length());

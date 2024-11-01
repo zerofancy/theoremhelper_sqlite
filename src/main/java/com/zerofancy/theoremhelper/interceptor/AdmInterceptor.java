@@ -4,10 +4,9 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -32,7 +31,7 @@ public class AdmInterceptor implements HandlerInterceptor {
 		HttpSession session = request.getSession(false);
 		if (session != null && session.getAttribute("user") != null) {
 			for (String k : ris.keySet()) {
-				if (request.getServletPath().toLowerCase().equals(k.toLowerCase()))//.toLowerCase()实现不区分大小写
+				if (request.getServletPath().equalsIgnoreCase(k))//.toLowerCase()实现不区分大小写
 					if ((int) ris.get(k) > ((UsAdmin) session.getAttribute("user")).getLevel()) {
 						PrintWriter printWriter = response.getWriter();
 						printWriter.write("{code:1,message:\"You are not permitted to this page!\"}");
