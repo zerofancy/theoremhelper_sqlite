@@ -7,6 +7,7 @@
 plugins {
     `java-library`
     `maven-publish`
+    application
 }
 
 repositories {
@@ -45,4 +46,8 @@ tasks.withType<JavaCompile>() {
 
 tasks.withType<Javadoc>() {
     options.encoding = "UTF-8"
+}
+
+application {
+    mainClass = "com.zerofancy.theoremhelper.TheoremhelperApplication"
 }

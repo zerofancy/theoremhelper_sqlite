@@ -3,12 +3,12 @@
 
 [versions]
 net-sourceforge-nekohtml-nekohtml = "1.9.22"
-org-springframework-boot-spring-boot-devtools = "3.3.5"
-org-springframework-boot-spring-boot-starter-jdbc = "3.3.5"
-org-springframework-boot-spring-boot-starter-test = "3.3.5"
-org-springframework-boot-spring-boot-starter-thymeleaf = "3.3.5"
-org-springframework-boot-spring-boot-starter-web = "3.3.5"
-org-xerial-sqlite-jdbc = "3.45.3.0"
+org-springframework-boot-spring-boot-devtools = "4.0.1"
+org-springframework-boot-spring-boot-starter-jdbc = "4.0.1"
+org-springframework-boot-spring-boot-starter-test = "4.0.1"
+org-springframework-boot-spring-boot-starter-thymeleaf = "4.0.1"
+org-springframework-boot-spring-boot-starter-web = "4.0.1"
+org-xerial-sqlite-jdbc = "3.46.1.0"
 
 [libraries]
 net-sourceforge-nekohtml-nekohtml = { module = "net.sourceforge.nekohtml:nekohtml", version.ref = "net-sourceforge-nekohtml-nekohtml" }
